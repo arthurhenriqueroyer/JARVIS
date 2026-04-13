@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J.A.R.V.I.S. • Homem de Ferro</title>
+    <title>J.A.R.V.I.S. • HOMEM DE FERRO • ULTRA EDITION</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600&display=swap');
 
         :root {
-            --jarvis-blue: #00f0ff;
-            --jarvis-dark: #0a0a1f;
+            --jarvis-blue: #00f8ff;
+            --jarvis-cyan: #00ffdd;
+            --neon-pink: #ff00aa;
+            --dark: #05050f;
         }
 
         * {
@@ -19,67 +21,65 @@
         }
 
         body {
-            background: radial-gradient(circle at center, #0a0a1f 0%, #000000 100%);
+            background: #05050f;
             color: var(--jarvis-blue);
             font-family: 'Orbitron', sans-serif;
             overflow: hidden;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
         }
 
-        /* Fundo tecnológico */
-        body::before {
-            content: '';
+        /* CANVAS DE PARTÍCULAS GALÁCTICAS */
+        #particles {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            animation: grid-move 20s linear infinite;
             z-index: 1;
-        }
-
-        @keyframes grid-move {
-            0% { background-position: 0 0; }
-            100% { background-position: 50px 50px; }
+            opacity: 0.85;
         }
 
         .header {
-            z-index: 10;
+            position: absolute;
+            top: 35px;
+            z-index: 20;
             text-align: center;
-            margin-bottom: 20px;
+            width: 100%;
         }
 
         .header h1 {
-            font-size: 4.5rem;
+            font-size: 5.8rem;
             font-weight: 900;
-            letter-spacing: 12px;
+            letter-spacing: 18px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #00f8ff, #00ffdd, #ff00aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-shadow: 
-                0 0 20px var(--jarvis-blue),
-                0 0 40px var(--jarvis-blue);
-            animation: title-glow 3s ease-in-out infinite alternate;
+                0 0 30px var(--jarvis-blue),
+                0 0 60px var(--jarvis-blue),
+                0 0 90px var(--neon-pink);
+            animation: title-glow 2.5s ease-in-out infinite alternate;
         }
 
-        .header .subtitle {
-            font-size: 1.2rem;
-            letter-spacing: 6px;
-            opacity: 0.8;
-            margin-top: -10px;
+        .subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.35rem;
+            letter-spacing: 14px;
+            margin-top: -12px;
+            opacity: 0.9;
+            text-shadow: 0 0 20px var(--jarvis-cyan);
         }
 
+        /* HUD CENTRAL - ARC REACTOR 2.0 */
         .hud-container {
             position: relative;
-            width: 520px;
-            height: 520px;
+            width: 620px;
+            height: 620px;
             z-index: 10;
         }
 
@@ -88,99 +88,148 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 520px;
-            height: 520px;
+            width: 620px;
+            height: 620px;
             border-radius: 50%;
-            border: 8px solid transparent;
+            border: 12px solid transparent;
             box-shadow: 
-                0 0 60px 30px var(--jarvis-blue),
-                inset 0 0 60px 30px var(--jarvis-blue);
-            animation: reactor-pulse 4s ease-in-out infinite;
+                0 0 80px 40px var(--jarvis-blue),
+                inset 0 0 80px 40px var(--jarvis-blue),
+                0 0 160px 60px rgba(255, 0, 170, 0.4);
+            animation: reactor-pulse 3s ease-in-out infinite;
         }
 
-        /* Anéis rotativos */
+        /* MÚLTIPLOS ANÉIS GIRANDO EM DIFERENTES VELOCIDADES E CORES */
         .ring {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             border-radius: 50%;
-            border: 3px solid transparent;
+            border: 4px solid transparent;
             animation: ring-rotate linear infinite;
         }
 
-        .ring1 {
-            width: 480px;
-            height: 480px;
-            border-top-color: var(--jarvis-blue);
-            animation-duration: 12s;
-        }
+        .ring1 { width: 580px; height: 580px; border-top-color: var(--jarvis-blue); animation-duration: 9s; }
+        .ring2 { width: 510px; height: 510px; border-bottom-color: #00ffdd; animation-duration: 14s; animation-direction: reverse; }
+        .ring3 { width: 440px; height: 440px; border-top-color: #ff00aa; animation-duration: 7s; }
+        .ring4 { width: 370px; height: 370px; border-bottom-color: #00f8ff; animation-duration: 18s; }
+        .ring5 { width: 300px; height: 300px; border: 6px dashed rgba(0, 248, 255, 0.6); animation-duration: 11s; }
 
-        .ring2 {
-            width: 410px;
-            height: 410px;
-            border-bottom-color: #00aaff;
-            animation-duration: 8s;
-            animation-direction: reverse;
-        }
-
-        .ring3 {
-            width: 340px;
-            height: 340px;
-            border-top-color: #00f0ff;
-            animation-duration: 18s;
-        }
-
-        /* Círculo central */
+        /* NÚCLEO CENTRAL COM EFEITO 3D */
         .core {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 240px;
-            height: 240px;
-            background: radial-gradient(circle, #001122 0%, #000811 100%);
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle at 40% 40%, #112233, #001122);
             border-radius: 50%;
-            border: 12px solid var(--jarvis-blue);
+            border: 18px solid var(--jarvis-blue);
             box-shadow: 
-                0 0 80px 20px var(--jarvis-blue),
-                inset 0 0 40px 20px #00f0ff;
+                0 0 100px 30px var(--jarvis-blue),
+                inset 0 0 60px 30px #00ffdd,
+                0 0 40px 20px var(--neon-pink);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             z-index: 5;
-            animation: core-pulse 2s ease-in-out infinite;
+            animation: core-pulse 1.8s ease-in-out infinite;
+        }
+
+        .core::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 10%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: inner-core 4s linear infinite;
         }
 
         .core-text {
-            font-size: 2.8rem;
+            font-size: 3.4rem;
             font-weight: 900;
-            letter-spacing: 8px;
-            text-shadow: 0 0 30px #00f0ff;
+            letter-spacing: 12px;
+            text-shadow: 0 0 40px #00f8ff;
+            z-index: 2;
         }
 
         .status {
-            font-size: 1.1rem;
-            margin-top: 8px;
-            letter-spacing: 4px;
-            opacity: 0.9;
+            font-size: 1.3rem;
+            letter-spacing: 6px;
+            margin-top: 10px;
+            text-shadow: 0 0 20px var(--neon-pink);
         }
 
-        /* Console de conversa */
-        .console {
+        /* PAINÉIS LATERAIS DE DADOS (estilo HUD real) */
+        .side-panel {
             position: absolute;
-            bottom: 30px;
-            width: 90%;
-            max-width: 900px;
-            height: 220px;
-            background: rgba(10, 10, 31, 0.85);
+            top: 50%;
+            width: 260px;
+            background: rgba(5, 5, 15, 0.75);
             border: 2px solid var(--jarvis-blue);
             border-radius: 15px;
-            box-shadow: 0 0 30px var(--jarvis-blue);
+            padding: 18px;
+            box-shadow: 0 0 40px var(--jarvis-blue);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.05rem;
+            z-index: 15;
+            backdrop-filter: blur(8px);
+        }
+
+        .left-panel  { left: 80px; transform: translateY(-50%); }
+        .right-panel { right: 80px; transform: translateY(-50%); }
+
+        .data-line {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            border-bottom: 1px solid rgba(0, 248, 255, 0.2);
+        }
+
+        .data-value {
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        /* CONSOLE HOLOGRÁFICO */
+        .console {
+            position: absolute;
+            bottom: 40px;
+            width: 96%;
+            max-width: 1100px;
+            height: 260px;
+            background: rgba(5, 5, 20, 0.92);
+            border: 3px solid var(--jarvis-blue);
+            border-radius: 20px;
+            box-shadow: 
+                0 0 60px var(--jarvis-blue),
+                inset 0 0 40px rgba(0, 248, 255, 0.3);
             overflow: hidden;
-            z-index: 20;
-            padding: 15px;
+            z-index: 30;
+            padding: 20px;
+        }
+
+        .console::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 4px,
+                rgba(0, 248, 255, 0.08) 4px,
+                rgba(0, 248, 255, 0.08) 8px
+            );
+            pointer-events: none;
+            animation: scanline 6s linear infinite;
         }
 
         .log {
@@ -188,159 +237,195 @@
             overflow-y: auto;
             padding-right: 15px;
             scrollbar-width: thin;
-            scrollbar-color: var(--jarvis-blue) #001122;
+            scrollbar-color: var(--jarvis-blue) transparent;
         }
 
         .message {
-            margin-bottom: 12px;
-            animation: fadeIn 0.4s ease;
+            margin-bottom: 16px;
+            animation: fadeIn 0.5s ease;
         }
 
-        .user {
-            text-align: right;
-            color: #00ffaa;
-        }
-
-        .jarvis {
-            text-align: left;
-            color: var(--jarvis-blue);
-        }
+        .user { text-align: right; }
+        .jarvis { text-align: left; }
 
         .message span {
             display: inline-block;
-            max-width: 75%;
-            padding: 12px 20px;
-            border-radius: 25px;
-            background: rgba(0, 240, 255, 0.1);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+            max-width: 78%;
+            padding: 14px 26px;
+            border-radius: 30px;
+            background: rgba(0, 248, 255, 0.12);
+            box-shadow: 0 0 25px rgba(0, 248, 255, 0.5);
+            font-size: 1.25rem;
         }
 
-        /* Controles */
+        /* CONTROLES */
         .controls {
-            margin-top: 25px;
+            position: absolute;
+            bottom: 340px;
+            width: 100%;
+            max-width: 1100px;
             display: flex;
             align-items: center;
-            gap: 20px;
-            z-index: 30;
+            justify-content: center;
+            gap: 30px;
+            z-index: 40;
         }
 
         .mic-btn {
-            width: 85px;
-            height: 85px;
-            background: #000;
-            border: 6px solid var(--jarvis-blue);
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, #111133, #000);
+            border: 8px solid var(--jarvis-blue);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.8rem;
+            font-size: 3.5rem;
             cursor: pointer;
             box-shadow: 
-                0 0 40px var(--jarvis-blue),
-                inset 0 0 20px var(--jarvis-blue);
+                0 0 60px var(--jarvis-blue),
+                inset 0 0 30px var(--jarvis-blue);
             transition: all 0.3s;
+            position: relative;
         }
 
-        .mic-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 
-                0 0 60px 10px var(--jarvis-blue);
-        }
+        .mic-btn:hover { transform: scale(1.12); }
 
         .mic-btn.listening {
-            animation: mic-listen 1.5s infinite;
-            border-color: #ff00aa;
-            box-shadow: 0 0 60px #ff00aa;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 80px 20px var(--neon-pink);
+            animation: mic-pulse 1.2s infinite;
         }
+
+        /* VISUALIZADOR DE VOZ */
+        .waveform {
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            gap: 5px;
+            height: 60px;
+            align-items: flex-end;
+        }
+
+        .bar {
+            width: 8px;
+            background: var(--neon-pink);
+            animation: bar-bounce 0.6s infinite alternate ease-in-out;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .mic-btn.listening .waveform { display: flex; }
 
         .text-input {
             flex: 1;
-            max-width: 500px;
-            padding: 18px 25px;
-            background: rgba(10, 10, 31, 0.9);
-            border: 3px solid var(--jarvis-blue);
-            border-radius: 50px;
-            color: white;
-            font-size: 1.3rem;
-            font-family: 'Orbitron', sans-serif;
+            max-width: 620px;
+            padding: 22px 30px;
+            background: rgba(5, 5, 25, 0.95);
+            border: 4px solid var(--jarvis-blue);
+            border-radius: 60px;
+            color: #fff;
+            font-size: 1.45rem;
             outline: none;
+            box-shadow: 0 0 40px var(--jarvis-blue);
         }
 
         .send-btn {
-            padding: 18px 35px;
-            background: var(--jarvis-blue);
+            padding: 22px 50px;
+            background: linear-gradient(45deg, var(--jarvis-blue), #00ffdd);
             color: #000;
+            font-weight: 900;
             border: none;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 700;
+            border-radius: 60px;
+            font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 0 30px var(--jarvis-blue);
+            box-shadow: 0 0 50px var(--jarvis-blue);
+            transition: all 0.3s;
         }
 
-        @keyframes reactor-pulse {
-            0%, 100% { opacity: 0.9; }
-            50% { opacity: 1; }
+        .send-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 70px 15px var(--jarvis-blue);
         }
 
-        @keyframes ring-rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes core-pulse {
-            0%, 100% { box-shadow: 0 0 80px 20px var(--jarvis-blue); }
-            50% { box-shadow: 0 0 120px 40px var(--jarvis-blue); }
-        }
-
-        @keyframes title-glow {
-            from { text-shadow: 0 0 20px var(--jarvis-blue); }
-            to { text-shadow: 0 0 50px var(--jarvis-blue), 0 0 80px var(--jarvis-blue); }
-        }
-
-        @keyframes mic-listen {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
+        /* ANIMAÇÕES */
+        @keyframes reactor-pulse { 0%,100% { box-shadow: 0 0 80px 40px var(--jarvis-blue), inset 0 0 80px 40px var(--jarvis-blue); } 50% { box-shadow: 0 0 140px 70px var(--neon-pink), inset 0 0 100px 50px var(--neon-pink); } }
+        @keyframes ring-rotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes core-pulse { 0%,100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.08); } }
+        @keyframes inner-core { to { transform: rotate(360deg); } }
+        @keyframes title-glow { from { filter: brightness(1); } to { filter: brightness(1.6); } }
+        @keyframes mic-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        @keyframes bar-bounce { from { height: 8px; } to { height: 55px; } }
+        @keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         .footer {
             position: absolute;
-            bottom: 15px;
-            font-size: 0.9rem;
-            opacity: 0.6;
-            letter-spacing: 3px;
+            bottom: 18px;
+            font-size: 0.95rem;
+            letter-spacing: 4px;
+            opacity: 0.5;
+            z-index: 50;
         }
     </style>
 </head>
 <body>
+    <canvas id="particles"></canvas>
+
     <div class="header">
         <h1>J.A.R.V.I.S.</h1>
-        <div class="subtitle">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+        <div class="subtitle">JUST A RATHER VERY INTELLIGENT SYSTEM • MARK LXXXV</div>
+    </div>
+
+    <!-- PAINEL ESQUERDO -->
+    <div class="side-panel left-panel">
+        <div class="data-line"><span>SISTEMAS ONLINE</span><span class="data-value">100%</span></div>
+        <div class="data-line"><span>ENERGIA DO REATOR</span><span class="data-value">∞</span></div>
+        <div class="data-line"><span>INTEGRIDADE DA ARMADURA</span><span class="data-value">100%</span></div>
+        <div class="data-line"><span>SCAN DE AMEAÇAS</span><span class="data-value">0</span></div>
+        <div class="data-line"><span>TEMPERATURA CURITIBA</span><span class="data-value" id="temp">23°C</span></div>
+        <div class="data-line"><span>HORA LOCAL</span><span class="data-value" id="clock">11:53</span></div>
+    </div>
+
+    <!-- PAINEL DIREITO -->
+    <div class="side-panel right-panel">
+        <div class="data-line"><span>MODO</span><span class="data-value">COMBATE</span></div>
+        <div class="data-line"><span>IA ATUAL</span><span class="data-value">GROK-4</span></div>
+        <div class="data-line"><span>CONEXÃO QUANTUM</span><span class="data-value">ESTÁVEL</span></div>
+        <div class="data-line"><span>VOZ RECONHECIDA</span><span class="data-value" id="voice-status">PT-BR</span></div>
+        <div class="data-line"><span>ÚLTIMO COMANDO</span><span class="data-value" id="last-command">—</span></div>
     </div>
 
     <div class="hud-container">
-        <!-- Anel de energia principal -->
         <div class="arc-reactor"></div>
         
-        <!-- Anéis rotativos -->
         <div class="ring ring1"></div>
         <div class="ring ring2"></div>
         <div class="ring ring3"></div>
+        <div class="ring ring4"></div>
+        <div class="ring ring5"></div>
 
-        <!-- Núcleo central -->
         <div class="core" id="core">
             <div class="core-text">JARVIS</div>
-            <div class="status" id="status">PRONTO PARA ATENDER</div>
+            <div class="status" id="status">SISTEMAS 100% • PRONTO PARA MISSÃO</div>
         </div>
     </div>
 
     <div class="controls">
-        <div class="mic-btn" id="mic-btn" title="Fale com o JARVIS">
+        <div class="mic-btn" id="mic-btn" title="Fale com o JARVIS (ou pressione ESPAÇO)">
             🎤
+            <div class="waveform" id="waveform">
+                <div class="bar" style="animation-delay: 0ms"></div>
+                <div class="bar" style="animation-delay: 80ms"></div>
+                <div class="bar" style="animation-delay: 160ms"></div>
+                <div class="bar" style="animation-delay: 240ms"></div>
+                <div class="bar" style="animation-delay: 320ms"></div>
+                <div class="bar" style="animation-delay: 400ms"></div>
+            </div>
         </div>
         
-        <input type="text" id="text-input" class="text-input" placeholder="Digite um comando ou fale...">
+        <input type="text" id="text-input" class="text-input" placeholder="Digite seu comando, senhor...">
         
         <button class="send-btn" id="send-btn">ENVIAR</button>
     </div>
@@ -350,214 +435,230 @@
     </div>
 
     <div class="footer">
-        Homem de Ferro • Interface Web • Funciona com voz (Chrome recomendado)
+        HOMEM DE FERRO • INTERFACE ULTRA • VERSÃO PICA DAS GALÁXIAS • 2026
     </div>
 
     <script>
-        // Elementos DOM
+        // Canvas partículas galácticas
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 0.5;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.6 - 0.3;
+                this.color = Math.random() > 0.5 ? '#00f8ff' : '#ff00aa';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.8;
+                ctx.fillRect(this.x, this.y, this.size, this.size);
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 280; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            // Linhas de conexão (efeito rede quântica)
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 110) {
+                        ctx.strokeStyle = 'rgba(0, 248, 255, 0.15)';
+                        ctx.lineWidth = 0.6;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Relógio e temperatura fake (atualiza em tempo real)
+        function updateHUD() {
+            const clock = document.getElementById('clock');
+            const temp = document.getElementById('temp');
+            setInterval(() => {
+                const now = new Date();
+                clock.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Elementos
         const micBtn = document.getElementById('mic-btn');
         const textInput = document.getElementById('text-input');
         const sendBtn = document.getElementById('send-btn');
         const log = document.getElementById('log');
         const statusEl = document.getElementById('status');
         const core = document.getElementById('core');
+        const lastCommandEl = document.getElementById('last-command');
 
-        // Configuração do JARVIS
-        let isListening = false;
         let recognition = null;
+        let isListening = false;
 
-        // Verifica suporte a Web Speech API
         function initSpeech() {
-            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
                 recognition = new SpeechRecognition();
                 recognition.lang = 'pt-BR';
                 recognition.continuous = false;
                 recognition.interimResults = false;
 
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
+                recognition.onresult = (e) => {
+                    const transcript = e.results[0][0].transcript;
                     addMessage('user', transcript);
+                    lastCommandEl.textContent = transcript.length > 18 ? transcript.substring(0, 15) + '...' : transcript;
                     processCommand(transcript);
                 };
 
                 recognition.onend = () => {
                     isListening = false;
                     micBtn.classList.remove('listening');
-                    statusEl.textContent = 'PRONTO PARA ATENDER';
+                    statusEl.textContent = 'SISTEMAS 100% • PRONTO PARA MISSÃO';
                 };
-
-                recognition.onerror = (event) => {
-                    console.error('Erro no reconhecimento:', event);
-                    isListening = false;
-                    micBtn.classList.remove('listening');
-                    statusEl.textContent = 'ERRO NO MICROFONE';
-                    setTimeout(() => {
-                        statusEl.textContent = 'PRONTO PARA ATENDER';
-                    }, 2000);
-                };
-            } else {
-                console.warn('Seu navegador não suporta reconhecimento de voz.');
             }
         }
 
-        // Adiciona mensagem no console
         function addMessage(type, text) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            
+            const div = document.createElement('div');
+            div.className = `message ${type}`;
             const bubble = document.createElement('span');
             bubble.textContent = text;
-            messageDiv.appendChild(bubble);
-            
-            log.appendChild(messageDiv);
+            div.appendChild(bubble);
+            log.appendChild(div);
             log.scrollTop = log.scrollHeight;
         }
 
-        // Fala com voz (Text-to-Speech)
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                statusEl.textContent = 'FALANDO...';
-                core.style.animation = 'core-pulse 0.8s infinite';
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'pt-BR';
-                utterance.pitch = 0.9;
-                utterance.rate = 1.05;
-                utterance.volume = 1;
+            statusEl.textContent = 'FALANDO...';
+            core.style.animation = 'core-pulse 0.6s infinite';
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'pt-BR';
+            utterance.pitch = 0.85;
+            utterance.rate = 1.08;
+            speechSynthesis.speak(utterance);
 
-                utterance.onend = () => {
-                    statusEl.textContent = 'PRONTO PARA ATENDER';
-                    core.style.animation = 'core-pulse 2s ease-in-out infinite';
-                };
-
-                speechSynthesis.speak(utterance);
-            }
+            utterance.onend = () => {
+                statusEl.textContent = 'SISTEMAS 100% • PRONTO PARA MISSÃO';
+                core.style.animation = 'core-pulse 1.8s ease-in-out infinite';
+            };
         }
 
-        // Processa comandos (aqui você pode adicionar quantos quiser!)
         function processCommand(command) {
             const lower = command.toLowerCase().trim();
             let response = '';
 
-            // === COMANDOS DO JARVIS ===
-            if (lower.includes('olá') || lower.includes('oi') || lower.includes('bom dia') || lower.includes('boa tarde')) {
-                response = 'Olá, senhor. Sempre um prazer ouvi-lo. Em que posso ajudar hoje?';
+            if (lower.includes('olá') || lower.includes('oi')) response = 'Olá, senhor Stark. Ou devo dizer... Arthur? Sempre um prazer.';
+            else if (lower.includes('hora')) {
+                const h = new Date().getHours();
+                response = `São exatamente ${h} horas e ${new Date().getMinutes()} minutos.`;
             }
-            else if (lower.includes('hora') || lower.includes('horas')) {
-                const agora = new Date();
-                response = `São exatamente ${agora.getHours()} horas e ${agora.getMinutes()} minutos.`;
+            else if (lower.includes('piada')) response = 'Por que o Tony Stark nunca joga futebol? Porque ele sempre faz gol de placa!';
+            else if (lower.includes('clima') || lower.includes('tempo')) response = 'Em Curitiba está 23°C com céu limpo. Perfeito para ativar os repulsores.';
+            else if (lower.includes('quem é você')) response = 'Eu sou o J.A.R.V.I.S., a interface mais avançada do universo. Versão pica das galáxias ativada!';
+            else if (lower.includes('abrir youtube')) { response = 'Abrindo YouTube...'; setTimeout(() => window.open('https://youtube.com', '_blank'), 600); }
+            else if (lower.includes('música') || lower.includes('tocar')) { response = 'Reproduzindo trilha épica do Homem de Ferro...'; setTimeout(() => window.open('https://www.youtube.com/watch?v=8a4S5V8z4zA', '_blank'), 800); }
+            else if (lower.includes('desligar') || lower.includes('tchau')) {
+                response = 'Desligando todos os sistemas. Foi uma honra servir você, senhor. Até a próxima missão espacial.';
+                setTimeout(() => location.reload(), 2800);
             }
-            else if (lower.includes('data') || lower.includes('dia')) {
-                const data = new Date();
-                const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-                response = `Hoje é ${dias[data.getDay()]}, ${data.getDate()} de abril de 2026.`;
-            }
-            else if (lower.includes('clima') || lower.includes('tempo') || lower.includes('previsão')) {
-                response = 'Em Curitiba, o céu está limpo e a temperatura é de 23°C. Perfeito para voar com a armadura, senhor.';
-            }
-            else if (lower.includes('piada') || lower.includes('piadin')) {
-                response = 'Por que o Homem de Ferro foi ao psicólogo? Porque ele tinha problemas de ferro no coração!';
-            }
-            else if (lower.includes('quem é você') || lower.includes('seu nome')) {
-                response = 'Eu sou o J.A.R.V.I.S., Just A Rather Very Intelligent System. Criado originalmente por Tony Stark e agora totalmente seu.';
-            }
-            else if (lower.includes('abrir youtube') || lower.includes('youtube')) {
-                response = 'Abrindo YouTube...';
-                setTimeout(() => window.open('https://youtube.com', '_blank'), 800);
-            }
-            else if (lower.includes('abrir google') || lower.includes('pesquisar')) {
-                const query = lower.split('sobre')[1] || lower.split('pesquisar')[1] || 'nada';
-                response = `Pesquisando "${query.trim()}" na web...`;
-                setTimeout(() => {
-                    window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
-                }, 1000);
-            }
-            else if (lower.includes('música') || lower.includes('tocar')) {
-                response = 'Reproduzindo uma playlist épica do Homem de Ferro... (imagine o som da armadura aqui)';
-                setTimeout(() => window.open('https://www.youtube.com/watch?v=8a4S5V8z4zA', '_blank'), 1200);
-            }
-            else if (lower.includes('desligar') || lower.includes('tchau') || lower.includes('sair')) {
-                response = 'Sistemas desligando. Foi um prazer servir você, senhor. Até a próxima missão.';
-                setTimeout(() => {
-                    core.style.opacity = '0.3';
-                    setTimeout(() => alert('J.A.R.V.I.S. foi desligado com sucesso.'), 1200);
-                }, 1500);
-            }
-            else if (lower.includes('obrigado') || lower.includes('valeu')) {
-                response = 'Sempre às ordens, senhor.';
-            }
-            else {
-                response = `Comando recebido: "${command}". Não encontrei uma resposta específica, mas estou sempre aprendendo. O que mais deseja?`;
-            }
+            else response = `Comando registrado: "${command}". Inteligência quântica processando... O que mais deseja hoje?`;
 
             addMessage('jarvis', response);
             speak(response);
         }
 
-        // Inicia escuta de voz
         function startListening() {
-            if (!recognition) {
-                alert('Seu navegador não suporta reconhecimento de voz. Use o Chrome ou Edge.');
-                return;
-            }
-            
+            if (!recognition) return alert('Navegador não suporta voz. Use Chrome ou Edge.');
             if (isListening) return;
             
             isListening = true;
             micBtn.classList.add('listening');
             statusEl.textContent = 'OUVINDO...';
-            
-            try {
-                recognition.start();
-            } catch (e) {
-                console.error(e);
-                isListening = false;
-                micBtn.classList.remove('listening');
-            }
+            recognition.start();
         }
 
-        // Event listeners
         function initListeners() {
             micBtn.addEventListener('click', startListening);
 
+            // Tecla ESPAÇO = voz (muito mais top)
+            document.addEventListener('keydown', e => {
+                if (e.key === ' ' && document.activeElement.tagName !== "INPUT") {
+                    e.preventDefault();
+                    startListening();
+                }
+            });
+
             sendBtn.addEventListener('click', () => {
-                const text = textInput.value.trim();
-                if (text) {
-                    addMessage('user', text);
-                    processCommand(text);
+                const txt = textInput.value.trim();
+                if (txt) {
+                    addMessage('user', txt);
+                    lastCommandEl.textContent = txt.length > 18 ? txt.substring(0, 15) + '...' : txt;
+                    processCommand(txt);
                     textInput.value = '';
                 }
             });
 
-            // Enter no campo de texto
-            textInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendBtn.click();
-                }
+            textInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter') sendBtn.click();
             });
-
-            // Dica inicial
-            console.log('%cJ.A.R.V.I.S. iniciado com sucesso! Fale com o microfone ou digite comandos.', 'color: #00f0ff; font-size: 16px; font-family: Orbitron');
         }
 
-        // Inicialização completa
-        function initJarvis() {
+        function bootSequence() {
+            const welcome = '🛰️ Inicializando interface quântica... J.A.R.V.I.S. online. Versão PICA DAS GALÁXIAS ativada!';
+            setTimeout(() => {
+                addMessage('jarvis', welcome);
+                speak('Interface quântica ativada. Bom dia, Arthur. O que vamos conquistar hoje?');
+            }, 800);
+        }
+
+        // INICIALIZAÇÃO TOTAL
+        window.onload = () => {
+            resizeCanvas();
+            initParticles();
+            animateParticles();
+            updateHUD();
             initSpeech();
             initListeners();
-            
-            // Mensagem de boas-vindas
-            setTimeout(() => {
-                const welcome = 'Sistemas online. Bom dia, senhor. J.A.R.V.I.S. à sua disposição.';
-                addMessage('jarvis', welcome);
-                speak(welcome);
-            }, 1200);
+            bootSequence();
 
-            console.log('🚀 JARVIS carregado com sucesso - Interface Homem de Ferro pronta!');
-        }
+            console.log('%c🚀 J.A.R.V.I.S. ULTRA EDITION CARREGADO - PICA DAS GALÁXIAS ATIVADA 🔥', 'color:#00f8ff; font-size:18px; font-family:Orbitron');
+        };
 
-        // Inicia tudo quando a página carrega
-        window.onload = initJarvis;
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
     </script>
 </body>
 </html>
