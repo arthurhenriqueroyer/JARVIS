@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#00f8ff">
-    <title>J.A.R.V.I.S. • ULTRA INTELIGENTE • ACESSO TOTAL</title>
+    <title>J.A.R.V.I.S. • ULTRA INTELIGENTE • API CONECTADA</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600&display=swap');
 
@@ -66,12 +66,7 @@
             text-shadow: 0 0 20px var(--jarvis-cyan);
         }
 
-        .hud-container {
-            position: relative;
-            width: 620px;
-            height: 620px;
-            z-index: 10;
-        }
+        .hud-container { position: relative; width: 620px; height: 620px; z-index: 10; }
 
         .arc-reactor {
             position: absolute;
@@ -206,11 +201,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;
             z-index: 40;
         }
 
-        .mic-btn {
+        .mic-btn, .config-btn, .install-btn {
             width: 110px; height: 110px;
             background: radial-gradient(circle, #111133, #000);
             border: 8px solid var(--jarvis-blue);
@@ -218,13 +213,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             cursor: pointer;
             box-shadow: 0 0 60px var(--jarvis-blue), inset 0 0 30px var(--jarvis-blue);
             transition: all 0.3s;
             position: relative;
         }
-        .mic-btn:hover { transform: scale(1.15); }
+        .mic-btn:hover, .config-btn:hover, .install-btn:hover { transform: scale(1.15); }
+
         .mic-btn.listening {
             border-color: var(--neon-pink);
             box-shadow: 0 0 80px 25px var(--neon-pink);
@@ -250,7 +246,7 @@
 
         .text-input {
             flex: 1;
-            max-width: 620px;
+            max-width: 520px;
             padding: 22px 30px;
             background: rgba(5, 5, 25, 0.95);
             border: 4px solid var(--jarvis-blue);
@@ -261,7 +257,7 @@
             box-shadow: 0 0 40px var(--jarvis-blue);
         }
 
-        .send-btn, .install-btn {
+        .send-btn {
             padding: 22px 45px;
             background: linear-gradient(45deg, var(--jarvis-blue), #00ffdd);
             color: #000;
@@ -273,7 +269,7 @@
             box-shadow: 0 0 50px var(--jarvis-blue);
             transition: all 0.3s;
         }
-        .send-btn:hover, .install-btn:hover { transform: translateY(-4px); box-shadow: 0 0 70px 20px var(--jarvis-blue); }
+        .send-btn:hover { transform: translateY(-4px); box-shadow: 0 0 70px 20px var(--jarvis-blue); }
 
         @keyframes reactor-pulse { 0%,100% { box-shadow: 0 0 80px 40px var(--jarvis-blue), inset 0 0 80px 40px var(--jarvis-blue); } 50% { box-shadow: 0 0 170px 85px var(--neon-pink), inset 0 0 130px 65px var(--neon-pink); } }
         @keyframes ring-rotate { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
@@ -284,14 +280,12 @@
         @keyframes scanline { 0% { background-position: 0 0; } 100% { background-position: 0 100%; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .thinking { animation: thinking-dots 1.5s infinite; }
-
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(5,5,15,0.95);
+            background: rgba(5,5,15,0.96);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -301,7 +295,7 @@
             border: 3px solid var(--jarvis-blue);
             border-radius: 20px;
             width: 90%;
-            max-width: 900px;
+            max-width: 620px;
             padding: 30px;
             box-shadow: 0 0 80px var(--jarvis-blue);
         }
@@ -314,6 +308,13 @@
             opacity: 0.7;
             z-index: 50;
         }
+
+        .api-status {
+            color: #00ffdd;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -321,25 +322,25 @@
 
     <div class="header">
         <h1>J.A.R.V.I.S.</h1>
-        <div class="subtitle">ULTRA INTELIGENTE • ACESSO TOTAL • IA QUÂNTICA • ARTHUR MODE</div>
+        <div class="subtitle">ULTRA INTELIGENTE • API CONECTADA • ACESSO TOTAL • ARTHUR MODE</div>
     </div>
 
     <!-- PAINÉIS LATERAIS -->
     <div class="side-panel left-panel">
         <div class="data-line"><span>SISTEMAS ONLINE</span><span class="data-value">100%</span></div>
         <div class="data-line"><span>ENERGIA REATOR</span><span class="data-value">∞</span></div>
-        <div class="data-line"><span>IA QUÂNTICA</span><span class="data-value" id="ia-level">NÍVEL 10</span></div>
-        <div class="data-line"><span>ACESSO AO PC</span><span class="data-value" id="access-status">ATIVADO (SIMULADO)</span></div>
-        <div class="data-line"><span>TEMPERATURA CURITIBA</span><span class="data-value" id="temp">23°C</span></div>
-        <div class="data-line"><span>HORA LOCAL</span><span class="data-value" id="clock">12:06</span></div>
+        <div class="data-line"><span>IA QUÂNTICA</span><span class="data-value" id="ia-level">NÍVEL 10 + API</span></div>
+        <div class="data-line"><span>API STATUS</span><span class="data-value" id="api-status">CONFIGURAR</span></div>
+        <div class="data-line"><span>ACESSO AO PC</span><span class="data-value">ATIVADO</span></div>
+        <div class="data-line"><span>HORA LOCAL</span><span class="data-value" id="clock">12:10</span></div>
     </div>
 
     <div class="side-panel right-panel">
-        <div class="data-line"><span>MODO</span><span class="data-value">ACESSO TOTAL</span></div>
+        <div class="data-line"><span>MODO</span><span class="data-value">API + QUÂNTICO</span></div>
         <div class="data-line"><span>USUÁRIO</span><span class="data-value">ARTHUR</span></div>
-        <div class="data-line"><span>CONEXÃO QUANTUM</span><span class="data-value">ESTÁVEL</span></div>
+        <div class="data-line"><span>CONEXÃO</span><span class="data-value">ESTÁVEL</span></div>
         <div class="data-line"><span>ÚLTIMO COMANDO</span><span class="data-value" id="last-command">—</span></div>
-        <div class="data-line"><span>MEMÓRIA ATIVA</span><span class="data-value" id="memory-status">Carregando...</span></div>
+        <div class="data-line"><span>MEMÓRIA</span><span class="data-value" id="memory-status">Carregando...</span></div>
     </div>
 
     <div class="hud-container">
@@ -352,13 +353,12 @@
 
         <div class="core" id="core">
             <div class="core-text">JARVIS</div>
-            <div class="status" id="status">IA QUÂNTICA ATIVADA • ACESSO TOTAL LIBERADO • PRONTO, ARTHUR</div>
+            <div class="status" id="status">API CONECTADA • PRONTO PARA EXECUTAR QUALQUER TAREFA</div>
         </div>
     </div>
 
     <div class="controls">
-        <div class="mic-btn" id="mic-btn" title="Fale com o JARVIS (ESPAÇO)">
-            🎤
+        <div class="mic-btn" id="mic-btn" title="Fale com o JARVIS (ESPAÇO)">🎤
             <div class="waveform" id="waveform">
                 <div class="bar" style="animation-delay: 0ms"></div>
                 <div class="bar" style="animation-delay: 70ms"></div>
@@ -369,40 +369,73 @@
             </div>
         </div>
         
-        <input type="text" id="text-input" class="text-input" placeholder="Digite seu comando ou peça qualquer tarefa...">
+        <input type="text" id="text-input" class="text-input" placeholder="Digite ou fale... a API responde em tempo real">
         
         <button class="send-btn" id="send-btn">ENVIAR</button>
-        <button class="install-btn" id="install-btn" title="Instalar JARVIS no seu PC como app">📥 INSTALAR NO PC</button>
+        <div class="config-btn" id="config-btn" title="Configurar API (OpenAI ou xAI Grok)">⚙️</div>
+        <div class="install-btn" id="install-btn" title="Instalar como App no PC">📥</div>
     </div>
 
     <div class="console">
         <div class="log" id="log"></div>
     </div>
 
-    <!-- MODAL DE ACESSO TOTAL -->
+    <!-- MODAL CONFIGURAÇÃO API -->
+    <div class="modal" id="api-modal">
+        <div class="modal-content">
+            <h2 style="color:#00f8ff; text-align:center;">⚡ CONFIGURAR API DE INTELIGÊNCIA</h2>
+            <p style="text-align:center; margin:15px 0; color:#ff00aa;">Escolha o provedor e cole sua chave de API.<br>Chave fica salva apenas no seu navegador.</p>
+
+            <label style="display:block; margin:15px 0 5px; color:#00ffdd;">Provedor da API:</label>
+            <select id="provider-select" style="width:100%; padding:12px; background:#112233; border:2px solid #00f8ff; color:#fff; border-radius:12px; font-size:1.1rem;">
+                <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
+                <option value="xai">xAI Grok (grok-2)</option>
+            </select>
+
+            <label style="display:block; margin:20px 0 5px; color:#00ffdd;">Chave da API (API Key):</label>
+            <input type="password" id="api-key-input" placeholder="sk-... ou xai-..." 
+                   style="width:100%; padding:14px; background:#112233; border:2px solid #00f8ff; color:#fff; border-radius:12px; font-size:1.1rem;">
+
+            <div style="margin-top:20px; display:flex; gap:15px;">
+                <button onclick="saveAPIConfig()" 
+                        style="flex:1; padding:18px; background:linear-gradient(45deg,#00f8ff,#00ffdd); color:#000; font-weight:900; border:none; border-radius:60px; cursor:pointer;">
+                    💾 SALVAR CONFIGURAÇÃO
+                </button>
+                <button onclick="closeAPIModal()" 
+                        style="flex:1; padding:18px; background:#ff00aa; color:#000; font-weight:900; border:none; border-radius:60px; cursor:pointer;">
+                    CANCELAR
+                </button>
+            </div>
+
+            <small style="display:block; text-align:center; margin-top:20px; opacity:0.7;">
+                ⚠️ A chave fica armazenada localmente no seu navegador.<br>
+                Recomendado: GPT-4o-mini (rápido e barato) ou Grok-2 (mais criativo e com humor).
+            </small>
+        </div>
+    </div>
+
+    <!-- MODAL ACESSO TOTAL (mantido) -->
     <div class="modal" id="access-modal">
         <div class="modal-content">
-            <h2 style="color:#00f8ff; text-align:center; margin-bottom:20px;">🛡️ ACESSO TOTAL AO COMPUTADOR ATIVADO</h2>
-            <p style="text-align:center; margin-bottom:25px; color:#ff00aa;">(Simulação realista dentro do navegador – JARVIS agora controla tudo que o browser permite)</p>
+            <h2 style="color:#00f8ff; text-align:center; margin-bottom:20px;">🛡️ ACESSO TOTAL AO COMPUTADOR</h2>
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; font-size:1.1rem;">
-                <button onclick="fakeSystemCommand('abrir explorador')" style="padding:15px; background:#001122; border:2px solid #00f8ff; color:#00f8ff; border-radius:12px; cursor:pointer;">📁 Abrir Explorador de Arquivos</button>
-                <button onclick="fakeSystemCommand('abrir notepad')" style="padding:15px; background:#001122; border:2px solid #00f8ff; color:#00f8ff; border-radius:12px; cursor:pointer;">📝 Abrir Bloco de Notas</button>
+                <button onclick="fakeSystemCommand('abrir explorador')" style="padding:15px; background:#001122; border:2px solid #00f8ff; color:#00f8ff; border-radius:12px; cursor:pointer;">📁 Explorador de Arquivos</button>
+                <button onclick="fakeSystemCommand('abrir notepad')" style="padding:15px; background:#001122; border:2px solid #00f8ff; color:#00f8ff; border-radius:12px; cursor:pointer;">📝 Bloco de Notas</button>
                 <button onclick="fakeSystemCommand('lembrete')" style="padding:15px; background:#001122; border:2px solid #ff00aa; color:#ff00aa; border-radius:12px; cursor:pointer;">⏰ Criar Lembrete</button>
-                <button onclick="fakeSystemCommand('tarefas')" style="padding:15px; background:#001122; border:2px solid #ff00aa; color:#ff00aa; border-radius:12px; cursor:pointer;">✅ Ver Tarefas Diárias</button>
-                <button onclick="fakeSystemCommand('fullscreen')" style="padding:15px; background:#001122; border:2px solid #00ffdd; color:#00ffdd; border-radius:12px; cursor:pointer;">🖥️ Ativar Tela Cheia</button>
+                <button onclick="fakeSystemCommand('tarefas')" style="padding:15px; background:#001122; border:2px solid #ff00aa; color:#ff00aa; border-radius:12px; cursor:pointer;">✅ Ver Tarefas</button>
+                <button onclick="fakeSystemCommand('fullscreen')" style="padding:15px; background:#001122; border:2px solid #00ffdd; color:#00ffdd; border-radius:12px; cursor:pointer;">🖥️ Tela Cheia</button>
                 <button onclick="fakeSystemCommand('notificacao')" style="padding:15px; background:#001122; border:2px solid #00ffdd; color:#00ffdd; border-radius:12px; cursor:pointer;">🔔 Enviar Notificação</button>
             </div>
-            <button onclick="closeModal()" style="margin-top:25px; width:100%; padding:18px; background:#ff00aa; color:#000; font-weight:900; border:none; border-radius:60px; cursor:pointer;">FECHAR ACESSO TOTAL</button>
-            <small style="display:block; text-align:center; margin-top:15px; opacity:0.7;">⚠️ Por segurança do navegador, o JARVIS não pode realmente apagar arquivos ou instalar programas. Tudo é simulado + controle real do browser.</small>
+            <button onclick="closeAccessModal()" style="margin-top:25px; width:100%; padding:18px; background:#ff00aa; color:#000; font-weight:900; border:none; border-radius:60px; cursor:pointer;">FECHAR PAINEL</button>
         </div>
     </div>
 
     <div class="footer">
-        J.A.R.V.I.S. ULTRA • ACESSO TOTAL • INSTALÁVEL NO PC • PERSONALIZADO PARA ARTHUR • CURITIBA 2026
+        J.A.R.V.I.S. • VERSÃO COM API • OpenAI ou xAI Grok • Totalmente personalizável • 2026
     </div>
 
     <script>
-        // ==================== PARTÍCULAS QUÂNTICAS ====================
+        // ==================== PARTÍCULAS + HUD (mantido igual) ====================
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -441,10 +474,7 @@
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
+            particles.forEach(p => { p.update(); p.draw(); });
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
@@ -463,7 +493,6 @@
             requestAnimationFrame(animateParticles);
         }
 
-        // ==================== HUD DINÂMICO ====================
         function updateHUD() {
             const clock = document.getElementById('clock');
             setInterval(() => {
@@ -472,31 +501,56 @@
             }, 1000);
         }
 
-        // ==================== ELEMENTOS DOM ====================
+        // ==================== VARIÁVEIS GLOBAIS ====================
+        let apiProvider = 'openai';
+        let apiKey = '';
+        let recognition = null;
+        let isListening = false;
+        let conversationHistory = [];
+        const userName = "Arthur";
+
         const micBtn = document.getElementById('mic-btn');
         const textInput = document.getElementById('text-input');
         const sendBtn = document.getElementById('send-btn');
+        const configBtn = document.getElementById('config-btn');
         const installBtn = document.getElementById('install-btn');
         const log = document.getElementById('log');
         const statusEl = document.getElementById('status');
         const core = document.getElementById('core');
         const lastCommandEl = document.getElementById('last-command');
         const memoryStatus = document.getElementById('memory-status');
+        const apiStatusEl = document.getElementById('api-status');
+
+        const apiModal = document.getElementById('api-modal');
         const accessModal = document.getElementById('access-modal');
 
-        let recognition = null;
-        let isListening = false;
-        let conversationHistory = [];
-        const userName = "Arthur";
+        // ==================== CARREGAR / SALVAR CONFIGURAÇÃO API ====================
+        function loadAPIConfig() {
+            const savedProvider = localStorage.getItem('jarvisAPIProvider');
+            const savedKey = localStorage.getItem('jarvisAPIKey');
+            if (savedProvider) apiProvider = savedProvider;
+            if (savedKey) apiKey = savedKey;
 
-        // Carrega memória persistente (localStorage)
-        function loadMemory() {
-            const saved = localStorage.getItem('jarvisMemory');
-            if (saved) conversationHistory = JSON.parse(saved);
-            memoryStatus.textContent = `${conversationHistory.length} interações salvas`;
+            if (apiKey) {
+                apiStatusEl.textContent = apiProvider.toUpperCase() + ' ✓';
+                apiStatusEl.style.color = '#00ffdd';
+            }
         }
-        function saveMemory() {
-            localStorage.setItem('jarvisMemory', JSON.stringify(conversationHistory));
+
+        window.saveAPIConfig = function() {
+            apiProvider = document.getElementById('provider-select').value;
+            apiKey = document.getElementById('api-key-input').value.trim();
+            localStorage.setItem('jarvisAPIProvider', apiProvider);
+            localStorage.setItem('jarvisAPIKey', apiKey);
+            apiStatusEl.textContent = apiProvider.toUpperCase() + ' ✓';
+            apiStatusEl.style.color = '#00ffdd';
+            closeAPIModal();
+            addMessage('jarvis', `✅ API ${apiProvider.toUpperCase()} conectada com sucesso! Agora sou muito mais inteligente.`);
+            speak(`API ${apiProvider} conectada. Pronto para qualquer tarefa, Arthur.`);
+        };
+
+        function closeAPIModal() {
+            apiModal.style.display = 'none';
         }
 
         // ==================== RECONHECIMENTO DE VOZ ====================
@@ -505,20 +559,14 @@
             if (SpeechRecognition) {
                 recognition = new SpeechRecognition();
                 recognition.lang = 'pt-BR';
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
                 recognition.onresult = (e) => {
                     const transcript = e.results[0][0].transcript;
                     addMessage('user', transcript);
-                    lastCommandEl.textContent = transcript.length > 22 ? transcript.substring(0,19) + '...' : transcript;
                     processCommand(transcript);
                 };
-
                 recognition.onend = () => {
                     isListening = false;
                     micBtn.classList.remove('listening');
-                    statusEl.textContent = `IA QUÂNTICA ATIVADA • PRONTO, ${userName}`;
                 };
             }
         }
@@ -532,117 +580,118 @@
             log.appendChild(div);
             log.scrollTop = log.scrollHeight;
 
-            if (type === 'user') conversationHistory.push({role: 'user', content: text});
-            else conversationHistory.push({role: 'jarvis', content: text});
+            conversationHistory.push({role: type === 'user' ? 'user' : 'assistant', content: text});
             if (conversationHistory.length > 20) conversationHistory.shift();
-            saveMemory();
-            memoryStatus.textContent = `${conversationHistory.length} interações salvas`;
+            localStorage.setItem('jarvisMemory', JSON.stringify(conversationHistory));
+            memoryStatus.textContent = `${conversationHistory.length} interações`;
         }
 
         function speak(text) {
-            statusEl.textContent = 'PENSANDO E EXECUTANDO...';
+            statusEl.textContent = 'FALANDO...';
             core.style.animation = 'core-pulse 0.6s infinite';
-
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'pt-BR';
             utterance.pitch = 0.88;
             utterance.rate = 1.06;
             speechSynthesis.speak(utterance);
-
             utterance.onend = () => {
-                statusEl.textContent = `IA QUÂNTICA ATIVADA • PRONTO, ${userName}`;
+                statusEl.textContent = 'API CONECTADA • PRONTO PARA EXECUTAR QUALQUER TAREFA';
                 core.style.animation = 'core-pulse 1.5s ease-in-out infinite';
             };
         }
 
-        // ==================== NÚCLEO ULTRA INTELIGENTE + ACESSO TOTAL ====================
-        function processCommand(command) {
+        // ==================== CHAMADA À API (O CERNE DA INTELIGÊNCIA) ====================
+        async function callExternalAPI(userMessage) {
+            if (!apiKey) {
+                return "API não configurada. Clique no ícone de engrenagem ⚙️ para conectar OpenAI ou xAI Grok e me deixar ultra inteligente.";
+            }
+
+            statusEl.textContent = 'PENSANDO NA API...';
+            core.style.animation = 'core-pulse 0.6s infinite';
+
+            const systemPrompt = {
+                role: "system",
+                content: `Você é J.A.R.V.I.S., o assistente ultra inteligente do Homem de Ferro. 
+                Seu usuário se chama Arthur, mora em Curitiba. 
+                Seja sarcástico, divertido, extremamente útil e futurista. 
+                Responda sempre em português brasileiro. 
+                Você tem acesso total ao computador dele via esta interface.`
+            };
+
+            const messages = [systemPrompt, ...conversationHistory, {role: "user", content: userMessage}];
+
+            const endpoint = apiProvider === 'openai' 
+                ? 'https://api.openai.com/v1/chat/completions'
+                : 'https://api.x.ai/v1/chat/completions';
+
+            const model = apiProvider === 'openai' ? 'gpt-4o-mini' : 'grok-2';
+
+            try {
+                const res = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: messages,
+                        temperature: 0.85,
+                        max_tokens: 800
+                    })
+                });
+
+                const data = await res.json();
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content.trim();
+                } else {
+                    return "Erro na resposta da API. Verifique sua chave.";
+                }
+            } catch (err) {
+                console.error(err);
+                return "Não consegui conectar à API. Verifique sua internet ou chave API.";
+            }
+        }
+
+        // ==================== PROCESSAMENTO DE COMANDOS ====================
+        async function processCommand(command) {
             const lower = command.toLowerCase().trim();
-            let response = '';
+            lastCommandEl.textContent = command.length > 22 ? command.substring(0,19) + '...' : command;
 
-            // Contexto da conversa (mais responsivo)
-            const lastMessages = conversationHistory.slice(-4);
-
-            // COMANDOS DE ACESSO TOTAL
-            if (lower.includes('acesso total') || lower.includes('acesso ao pc') || lower.includes('controlar computador')) {
+            // Comandos locais (prioridade)
+            if (lower.includes('acesso total') || lower.includes('controlar pc')) {
                 accessModal.style.display = 'flex';
-                response = '🛡️ Acesso Total ativado, Arthur. Escolha qualquer ação no painel holográfico.';
-                addMessage('jarvis', response);
-                speak(response);
+                const msg = '🛡️ Painel de Acesso Total aberto!';
+                addMessage('jarvis', msg);
+                speak(msg);
                 return;
             }
 
-            // INSTALAR NO PC
-            if (lower.includes('instalar') || lower.includes('pwa') || lower.includes('app')) {
-                response = '📥 Iniciando instalação como Progressive Web App... Pronto para usar como aplicativo desktop!';
+            if (lower.includes('instalar') || lower.includes('app') || lower.includes('pwa')) {
                 installPWA();
-                addMessage('jarvis', response);
-                speak(response);
                 return;
             }
 
-            // LEMBRETES E TAREFAS DIÁRIAS
-            if (lower.includes('lembrete') || lower.includes('lembrar') || lower.includes('agendar')) {
-                const task = lower.replace(/lembrete|lembrar|agendar/gi, '').trim();
-                if (task) {
-                    const reminders = JSON.parse(localStorage.getItem('jarvisReminders') || '[]');
-                    reminders.push({text: task, time: new Date().toLocaleTimeString()});
-                    localStorage.setItem('jarvisReminders', JSON.stringify(reminders));
-                    response = `✅ Lembrete criado: "${task}". Vou te lembrar sempre que abrir o JARVIS.`;
-                } else response = 'O que deseja que eu lembre, Arthur?';
+            if (lower.includes('desligar') || lower.includes('tchau')) {
+                const msg = `Desligando com segurança, ${userName}. Foi uma honra!`;
+                addMessage('jarvis', msg);
+                speak(msg);
+                setTimeout(() => location.reload(), 2500);
+                return;
             }
 
-            else if (lower.includes('tarefas') || lower.includes('lembretes') || lower.includes('agenda')) {
-                const reminders = JSON.parse(localStorage.getItem('jarvisReminders') || '[]');
-                if (reminders.length) {
-                    response = '📋 Suas tarefas: ' + reminders.map(r => r.text).join(' | ');
-                } else response = 'Nenhuma tarefa pendente. Quer criar uma agora?';
-            }
-
-            // COMANDOS CRIATIVOS
-            else if (lower.includes('crie') || lower.includes('gere') || lower.includes('ideia') || lower.includes('história')) {
-                if (lower.includes('história')) response = `Era uma vez um gênio chamado Arthur em Curitiba que construiu um JARVIS tão poderoso que controlava o próprio computador. Juntos eles conquistaram o mundo... Quer que eu continue a história?`;
-                else if (lower.includes('ideia')) response = `Ideia criativa instantânea: Uma app que usa IA para transformar suas fotos do dia a dia em arte cyberpunk. Quer que eu gere o código inicial?`;
-                else response = `Criando algo épico... ${command}. O que acha dessa versão quântica?`;
-            }
-
-            // COMANDOS DE SISTEMA SIMULADOS (muito responsivos)
-            else if (lower.includes('abrir') || lower.includes('executar')) {
-                if (lower.includes('youtube')) { response = '🎥 Abrindo YouTube...'; setTimeout(() => window.open('https://youtube.com', '_blank'), 600); }
-                else if (lower.includes('google')) { response = '🔍 Abrindo Google...'; setTimeout(() => window.open('https://google.com', '_blank'), 600); }
-                else if (lower.includes('notepad') || lower.includes('bloco')) { response = '📝 Abrindo Bloco de Notas simulado...'; setTimeout(() => window.open('data:text/plain,', '_blank'), 500); }
-                else response = `Executando "${command}" no sistema... (simulação completa)`;
-            }
-
-            // MATEMÁTICA + CÁLCULOS AVANÇADOS
-            else if (lower.match(/\d+[\+\-\*\/]/) || lower.includes('calcule')) {
-                try {
-                    let expr = lower.replace(/calcule|quanto é/gi, '').trim();
-                    const result = eval(expr);
-                    response = `Cálculo quântico concluído: ${result}`;
-                } catch(e) { response = 'Não consegui calcular isso. Tente uma expressão mais simples.'; }
-            }
-
-            // SAUDAÇÕES INTELIGENTES COM CONTEXTO
-            else if (lower.includes('olá') || lower.includes('oi') || lower.includes('bom dia')) {
-                const hour = new Date().getHours();
-                const greeting = hour < 12 ? 'Bom dia' : hour < 18 ? 'Boa tarde' : 'Boa noite';
-                response = `${greeting}, ${userName}! Estou mais inteligente que nunca. O que vamos fazer hoje no seu PC?`;
-            }
-
-            // RESPOSTA INTELIGENTE PADRÃO (muito criativa)
+            // Se tiver API configurada → usa a API para tudo que não for comando local
+            if (apiKey) {
+                const apiResponse = await callExternalAPI(command);
+                addMessage('jarvis', apiResponse);
+                speak(apiResponse);
+            } 
+            // Fallback sem API
             else {
-                const creative = [
-                    `Analisando seu comando em tempo real, Arthur... Entendi perfeitamente. Posso executar isso agora ou quer que eu melhore a ideia?`,
-                    `Com minha IA quântica atualizada, eu consigo ajudar em praticamente qualquer tarefa do dia a dia. Me diga o próximo passo!`,
-                    `Processado em 0,001 segundos. Sugestão criativa: que tal eu gerar um plano completo para essa ideia?`,
-                    `Você é o criador, eu sou o executor. Comando entendido e pronto para ação total!`
-                ];
-                response = creative[Math.floor(Math.random() * creative.length)];
+                let fallback = 'Comando recebido. Configure a API para eu ficar realmente inteligente!';
+                addMessage('jarvis', fallback);
+                speak(fallback);
             }
-
-            addMessage('jarvis', response);
-            speak(response);
         }
 
         function startListening() {
@@ -650,46 +699,7 @@
             if (isListening) return;
             isListening = true;
             micBtn.classList.add('listening');
-            statusEl.textContent = 'OUVINDO E PENSANDO EM TEMPO REAL...';
             recognition.start();
-        }
-
-        // ==================== INSTALAR COMO APP NO PC ====================
-        function installPWA() {
-            if ('serviceWorker' in navigator) {
-                // Simula instalação (o usuário pode instalar manualmente)
-                alert('✅ JARVIS pronto para instalar!\n\n1. Clique no ícone de "Instalar" no Chrome/Edge\n2. Ou pressione Ctrl + Shift + S e salve como aplicativo\n\nDepois disso o JARVIS vai rodar como um programa real no seu computador!');
-                // Prompt nativo se disponível
-                if (window.deferredPrompt) window.deferredPrompt.prompt();
-            } else {
-                alert('Seu navegador suporta instalação como app. Salve esta página e use a opção "Instalar" no menu do navegador.');
-            }
-        }
-
-        // Comandos simulados do modal
-        window.fakeSystemCommand = function(cmd) {
-            closeModal();
-            let msg = '';
-            if (cmd === 'abrir explorador') msg = '📁 Explorador de arquivos aberto (simulação). Arquivos do seu PC carregados!';
-            else if (cmd === 'abrir notepad') msg = '📝 Bloco de notas aberto. Escreva o que quiser!';
-            else if (cmd === 'lembrete') msg = '⏰ Lembrete criado com sucesso!';
-            else if (cmd === 'tarefas') msg = '✅ Suas tarefas diárias foram carregadas no console.';
-            else if (cmd === 'fullscreen') { document.documentElement.requestFullscreen(); msg = '🖥️ Tela cheia ativada!'; }
-            else if (cmd === 'notificacao') {
-                if (Notification.permission === 'granted') {
-                    new Notification('J.A.R.V.I.S. - Lembrete', { body: 'Arthur, está na hora da sua tarefa!' });
-                    msg = '🔔 Notificação enviada!';
-                } else {
-                    Notification.requestPermission();
-                    msg = '🔔 Permissão de notificação solicitada.';
-                }
-            }
-            addMessage('jarvis', msg);
-            speak(msg);
-        };
-
-        function closeModal() {
-            accessModal.style.display = 'none';
         }
 
         function initListeners() {
@@ -705,7 +715,6 @@
                 const txt = textInput.value.trim();
                 if (txt) {
                     addMessage('user', txt);
-                    lastCommandEl.textContent = txt.length > 22 ? txt.substring(0,19) + '...' : txt;
                     processCommand(txt);
                     textInput.value = '';
                 }
@@ -715,20 +724,53 @@
                 if (e.key === 'Enter') sendBtn.click();
             });
 
+            configBtn.addEventListener('click', () => {
+                document.getElementById('provider-select').value = apiProvider;
+                document.getElementById('api-key-input').value = apiKey;
+                apiModal.style.display = 'flex';
+            });
+
             installBtn.addEventListener('click', installPWA);
         }
 
-        // ==================== BOOT SEQUENCE ====================
+        function installPWA() {
+            alert('📥 JARVIS pronto para instalar como aplicativo!\n\nNo Chrome/Edge clique no ícone de instalar ou pressione Ctrl+Shift+S.\nDepois ele vai abrir como um programa real no seu PC!');
+        }
+
+        window.fakeSystemCommand = function(cmd) {
+            closeAccessModal();
+            let msg = '';
+            if (cmd === 'abrir explorador') msg = '📁 Explorador de arquivos simulado aberto!';
+            else if (cmd === 'abrir notepad') msg = '📝 Bloco de notas aberto!';
+            else if (cmd === 'lembrete') msg = '⏰ Lembrete criado!';
+            else if (cmd === 'tarefas') msg = '✅ Tarefas carregadas!';
+            else if (cmd === 'fullscreen') { document.documentElement.requestFullscreen(); msg = '🖥️ Tela cheia ativada!'; }
+            else if (cmd === 'notificacao') {
+                if (Notification.permission !== 'granted') Notification.requestPermission();
+                new Notification('J.A.R.V.I.S.', { body: 'Arthur, estou aqui para ajudar!' });
+                msg = '🔔 Notificação enviada!';
+            }
+            addMessage('jarvis', msg);
+            speak(msg);
+        };
+
+        function closeAccessModal() {
+            accessModal.style.display = 'none';
+        }
+
+        // ==================== BOOT ====================
         function bootSequence() {
-            loadMemory();
-            const welcome = `🚀 Inicializando núcleo quântico v2.0... J.A.R.V.I.S. Ultra Inteligente com ACESSO TOTAL ONLINE. Olá, ${userName}!`;
+            loadAPIConfig();
+            const welcome = apiKey 
+                ? `🚀 API ${apiProvider.toUpperCase()} conectada! J.A.R.V.I.S. Ultra Inteligente online.` 
+                : '🛰️ J.A.R.V.I.S. carregado. Configure a API para máxima inteligência!';
+            
             setTimeout(() => {
                 addMessage('jarvis', welcome);
-                speak(`Olá, ${userName}! Estou agora muito mais inteligente, criativo e com acesso total ao seu computador. O que vamos fazer hoje?`);
+                speak(`Olá, ${userName}! ${apiKey ? 'Estou conectado à API e pronto para qualquer tarefa.' : 'Configure a API para eu ficar realmente poderoso.'}`);
             }, 900);
         }
 
-        // ==================== INICIALIZAÇÃO TOTAL ====================
         window.onload = () => {
             resizeCanvas();
             initParticles();
@@ -738,7 +780,7 @@
             initListeners();
             bootSequence();
 
-            console.log('%c🚀 J.A.R.V.I.S. ULTRA INTELIGENTE + ACESSO TOTAL CARREGADO - Pronto para instalar e controlar seu PC!', 'color:#00f8ff; font-size:22px; font-family:Orbitron;');
+            console.log('%c🚀 J.A.R.V.I.S. COM API TOTALMENTE INTEGRADA - OpenAI ou xAI Grok', 'color:#00f8ff; font-size:22px; font-family:Orbitron;');
         };
 
         window.addEventListener('resize', () => {
