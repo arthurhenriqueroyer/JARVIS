@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.A.R.V.I.S. • Homem de Ferro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+        :root {
+            --jarvis-blue: #00f0ff;
+            --jarvis-dark: #0a0a1f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #0a0a1f 0%, #000000 100%);
+            color: var(--jarvis-blue);
+            font-family: 'Orbitron', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Fundo tecnológico */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            animation: grid-move 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        .header {
+            z-index: 10;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 12px;
+            text-shadow: 
+                0 0 20px var(--jarvis-blue),
+                0 0 40px var(--jarvis-blue);
+            animation: title-glow 3s ease-in-out infinite alternate;
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 6px;
+            opacity: 0.8;
+            margin-top: -10px;
+        }
+
+        .hud-container {
+            position: relative;
+            width: 520px;
+            height: 520px;
+            z-index: 10;
+        }
+
+        .arc-reactor {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            border: 8px solid transparent;
+            box-shadow: 
+                0 0 60px 30px var(--jarvis-blue),
+                inset 0 0 60px 30px var(--jarvis-blue);
+            animation: reactor-pulse 4s ease-in-out infinite;
+        }
+
+        /* Anéis rotativos */
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 3px solid transparent;
+            animation: ring-rotate linear infinite;
+        }
+
+        .ring1 {
+            width: 480px;
+            height: 480px;
+            border-top-color: var(--jarvis-blue);
+            animation-duration: 12s;
+        }
+
+        .ring2 {
+            width: 410px;
+            height: 410px;
+            border-bottom-color: #00aaff;
+            animation-duration: 8s;
+            animation-direction: reverse;
+        }
+
+        .ring3 {
+            width: 340px;
+            height: 340px;
+            border-top-color: #00f0ff;
+            animation-duration: 18s;
+        }
+
+        /* Círculo central */
+        .core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle, #001122 0%, #000811 100%);
+            border-radius: 50%;
+            border: 12px solid var(--jarvis-blue);
+            box-shadow: 
+                0 0 80px 20px var(--jarvis-blue),
+                inset 0 0 40px 20px #00f0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 5;
+            animation: core-pulse 2s ease-in-out infinite;
+        }
+
+        .core-text {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            text-shadow: 0 0 30px #00f0ff;
+        }
+
+        .status {
+            font-size: 1.1rem;
+            margin-top: 8px;
+            letter-spacing: 4px;
+            opacity: 0.9;
+        }
+
+        /* Console de conversa */
+        .console {
+            position: absolute;
+            bottom: 30px;
+            width: 90%;
+            max-width: 900px;
+            height: 220px;
+            background: rgba(10, 10, 31, 0.85);
+            border: 2px solid var(--jarvis-blue);
+            border-radius: 15px;
+            box-shadow: 0 0 30px var(--jarvis-blue);
+            overflow: hidden;
+            z-index: 20;
+            padding: 15px;
+        }
+
+        .log {
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--jarvis-blue) #001122;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .user {
+            text-align: right;
+            color: #00ffaa;
+        }
+
+        .jarvis {
+            text-align: left;
+            color: var(--jarvis-blue);
+        }
+
+        .message span {
+            display: inline-block;
+            max-width: 75%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            background: rgba(0, 240, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        /* Controles */
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 30;
+        }
+
+        .mic-btn {
+            width: 85px;
+            height: 85px;
+            background: #000;
+            border: 6px solid var(--jarvis-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            cursor: pointer;
+            box-shadow: 
+                0 0 40px var(--jarvis-blue),
+                inset 0 0 20px var(--jarvis-blue);
+            transition: all 0.3s;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 
+                0 0 60px 10px var(--jarvis-blue);
+        }
+
+        .mic-btn.listening {
+            animation: mic-listen 1.5s infinite;
+            border-color: #ff00aa;
+            box-shadow: 0 0 60px #ff00aa;
+        }
+
+        .text-input {
+            flex: 1;
+            max-width: 500px;
+            padding: 18px 25px;
+            background: rgba(10, 10, 31, 0.9);
+            border: 3px solid var(--jarvis-blue);
+            border-radius: 50px;
+            color: white;
+            font-size: 1.3rem;
+            font-family: 'Orbitron', sans-serif;
+            outline: none;
+        }
+
+        .send-btn {
+            padding: 18px 35px;
+            background: var(--jarvis-blue);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 30px var(--jarvis-blue);
+        }
+
+        @keyframes reactor-pulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes ring-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes core-pulse {
+            0%, 100% { box-shadow: 0 0 80px 20px var(--jarvis-blue); }
+            50% { box-shadow: 0 0 120px 40px var(--jarvis-blue); }
+        }
+
+        @keyframes title-glow {
+            from { text-shadow: 0 0 20px var(--jarvis-blue); }
+            to { text-shadow: 0 0 50px var(--jarvis-blue), 0 0 80px var(--jarvis-blue); }
+        }
+
+        @keyframes mic-listen {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>J.A.R.V.I.S.</h1>
+        <div class="subtitle">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+    </div>
+
+    <div class="hud-container">
+        <!-- Anel de energia principal -->
+        <div class="arc-reactor"></div>
+        
+        <!-- Anéis rotativos -->
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+
+        <!-- Núcleo central -->
+        <div class="core" id="core">
+            <div class="core-text">JARVIS</div>
+            <div class="status" id="status">PRONTO PARA ATENDER</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="mic-btn" id="mic-btn" title="Fale com o JARVIS">
+            🎤
+        </div>
+        
+        <input type="text" id="text-input" class="text-input" placeholder="Digite um comando ou fale...">
+        
+        <button class="send-btn" id="send-btn">ENVIAR</button>
+    </div>
+
+    <div class="console">
+        <div class="log" id="log"></div>
+    </div>
+
+    <div class="footer">
+        Homem de Ferro • Interface Web • Funciona com voz (Chrome recomendado)
+    </div>
+
+    <script>
+        // Elementos DOM
+        const micBtn = document.getElementById('mic-btn');
+        const textInput = document.getElementById('text-input');
+        const sendBtn = document.getElementById('send-btn');
+        const log = document.getElementById('log');
+        const statusEl = document.getElementById('status');
+        const core = document.getElementById('core');
+
+        // Configuração do JARVIS
+        let isListening = false;
+        let recognition = null;
+
+        // Verifica suporte a Web Speech API
+        function initSpeech() {
+            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'pt-BR';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    addMessage('user', transcript);
+                    processCommand(transcript);
+                };
+
+                recognition.onend = () => {
+                    isListening = false;
+                    micBtn.classList.remove('listening');
+                    statusEl.textContent = 'PRONTO PARA ATENDER';
+                };
+
+                recognition.onerror = (event) => {
+                    console.error('Erro no reconhecimento:', event);
+                    isListening = false;
+                    micBtn.classList.remove('listening');
+                    statusEl.textContent = 'ERRO NO MICROFONE';
+                    setTimeout(() => {
+                        statusEl.textContent = 'PRONTO PARA ATENDER';
+                    }, 2000);
+                };
+            } else {
+                console.warn('Seu navegador não suporta reconhecimento de voz.');
+            }
+        }
+
+        // Adiciona mensagem no console
+        function addMessage(type, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const bubble = document.createElement('span');
+            bubble.textContent = text;
+            messageDiv.appendChild(bubble);
+            
+            log.appendChild(messageDiv);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Fala com voz (Text-to-Speech)
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                statusEl.textContent = 'FALANDO...';
+                core.style.animation = 'core-pulse 0.8s infinite';
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pt-BR';
+                utterance.pitch = 0.9;
+                utterance.rate = 1.05;
+                utterance.volume = 1;
+
+                utterance.onend = () => {
+                    statusEl.textContent = 'PRONTO PARA ATENDER';
+                    core.style.animation = 'core-pulse 2s ease-in-out infinite';
+                };
+
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Processa comandos (aqui você pode adicionar quantos quiser!)
+        function processCommand(command) {
+            const lower = command.toLowerCase().trim();
+            let response = '';
+
+            // === COMANDOS DO JARVIS ===
+            if (lower.includes('olá') || lower.includes('oi') || lower.includes('bom dia') || lower.includes('boa tarde')) {
+                response = 'Olá, senhor. Sempre um prazer ouvi-lo. Em que posso ajudar hoje?';
+            }
+            else if (lower.includes('hora') || lower.includes('horas')) {
+                const agora = new Date();
+                response = `São exatamente ${agora.getHours()} horas e ${agora.getMinutes()} minutos.`;
+            }
+            else if (lower.includes('data') || lower.includes('dia')) {
+                const data = new Date();
+                const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+                response = `Hoje é ${dias[data.getDay()]}, ${data.getDate()} de abril de 2026.`;
+            }
+            else if (lower.includes('clima') || lower.includes('tempo') || lower.includes('previsão')) {
+                response = 'Em Curitiba, o céu está limpo e a temperatura é de 23°C. Perfeito para voar com a armadura, senhor.';
+            }
+            else if (lower.includes('piada') || lower.includes('piadin')) {
+                response = 'Por que o Homem de Ferro foi ao psicólogo? Porque ele tinha problemas de ferro no coração!';
+            }
+            else if (lower.includes('quem é você') || lower.includes('seu nome')) {
+                response = 'Eu sou o J.A.R.V.I.S., Just A Rather Very Intelligent System. Criado originalmente por Tony Stark e agora totalmente seu.';
+            }
+            else if (lower.includes('abrir youtube') || lower.includes('youtube')) {
+                response = 'Abrindo YouTube...';
+                setTimeout(() => window.open('https://youtube.com', '_blank'), 800);
+            }
+            else if (lower.includes('abrir google') || lower.includes('pesquisar')) {
+                const query = lower.split('sobre')[1] || lower.split('pesquisar')[1] || 'nada';
+                response = `Pesquisando "${query.trim()}" na web...`;
+                setTimeout(() => {
+                    window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
+                }, 1000);
+            }
+            else if (lower.includes('música') || lower.includes('tocar')) {
+                response = 'Reproduzindo uma playlist épica do Homem de Ferro... (imagine o som da armadura aqui)';
+                setTimeout(() => window.open('https://www.youtube.com/watch?v=8a4S5V8z4zA', '_blank'), 1200);
+            }
+            else if (lower.includes('desligar') || lower.includes('tchau') || lower.includes('sair')) {
+                response = 'Sistemas desligando. Foi um prazer servir você, senhor. Até a próxima missão.';
+                setTimeout(() => {
+                    core.style.opacity = '0.3';
+                    setTimeout(() => alert('J.A.R.V.I.S. foi desligado com sucesso.'), 1200);
+                }, 1500);
+            }
+            else if (lower.includes('obrigado') || lower.includes('valeu')) {
+                response = 'Sempre às ordens, senhor.';
+            }
+            else {
+                response = `Comando recebido: "${command}". Não encontrei uma resposta específica, mas estou sempre aprendendo. O que mais deseja?`;
+            }
+
+            addMessage('jarvis', response);
+            speak(response);
+        }
+
+        // Inicia escuta de voz
+        function startListening() {
+            if (!recognition) {
+                alert('Seu navegador não suporta reconhecimento de voz. Use o Chrome ou Edge.');
+                return;
+            }
+            
+            if (isListening) return;
+            
+            isListening = true;
+            micBtn.classList.add('listening');
+            statusEl.textContent = 'OUVINDO...';
+            
+            try {
+                recognition.start();
+            } catch (e) {
+                console.error(e);
+                isListening = false;
+                micBtn.classList.remove('listening');
+            }
+        }
+
+        // Event listeners
+        function initListeners() {
+            micBtn.addEventListener('click', startListening);
+
+            sendBtn.addEventListener('click', () => {
+                const text = textInput.value.trim();
+                if (text) {
+                    addMessage('user', text);
+                    processCommand(text);
+                    textInput.value = '';
+                }
+            });
+
+            // Enter no campo de texto
+            textInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendBtn.click();
+                }
+            });
+
+            // Dica inicial
+            console.log('%cJ.A.R.V.I.S. iniciado com sucesso! Fale com o microfone ou digite comandos.', 'color: #00f0ff; font-size: 16px; font-family: Orbitron');
+        }
+
+        // Inicialização completa
+        function initJarvis() {
+            initSpeech();
+            initListeners();
+            
+            // Mensagem de boas-vindas
+            setTimeout(() => {
+                const welcome = 'Sistemas online. Bom dia, senhor. J.A.R.V.I.S. à sua disposição.';
+                addMessage('jarvis', welcome);
+                speak(welcome);
+            }, 1200);
+
+            console.log('🚀 JARVIS carregado com sucesso - Interface Homem de Ferro pronta!');
+        }
+
+        // Inicia tudo quando a página carrega
+        window.onload = initJarvis;
+    </script>
+</body>
+</html>
